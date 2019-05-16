@@ -1,3 +1,4 @@
-# Slide Sharing
+# Tinkoff News
 
-Online service for finding and holding events.
+Task for internship applying.
+#Retrofit2 #RxJava #ButterKnife

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tinkoff News</string>
+    <string name="no_title">Новость</string>
+    <string name="no_content">Нет описания</string>
+    <string name="news_title">Новости</string>
+</resources>

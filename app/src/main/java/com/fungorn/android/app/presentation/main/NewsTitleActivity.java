@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import com.fungorn.android.app.R;
 import com.fungorn.android.app.adapters.NewsAdapter;
+import com.fungorn.android.app.models.NewsTitle;
 import com.fungorn.android.app.models.TitlePayload;
 import com.fungorn.android.app.presentation.content.NewsContentActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +34,7 @@ public class NewsTitleActivity extends AppCompatActivity implements NewsTitleVie
     private String TAG = "NewsTitleActivity";
     RecyclerView.Adapter adapter;
     NewsTitlePresenter presenter;
+    List<NewsTitle> titlesCached;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,19 +64,15 @@ public class NewsTitleActivity extends AppCompatActivity implements NewsTitleVie
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
-        if (id == R.id.menu_refresh) {
+        if (id == R.id.menu_refresh)
             getNewsList();
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -85,6 +85,7 @@ public class NewsTitleActivity extends AppCompatActivity implements NewsTitleVie
     public void showNews(TitlePayload payload) {
         if(payload != null) {
             Log.d(TAG, payload.getPayload().get(0).getName());
+            titlesCached = payload.getPayload();
             payload.getPayload().sort((o1, o2) ->
                     Long.compare(
                             o2.getPublicationDate().getMilliseconds(),

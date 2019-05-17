@@ -2,7 +2,7 @@ package com.fungorn.android.app.presentation.main;
 
 import android.util.Log;
 
-import com.fungorn.android.app.models.Payload;
+import com.fungorn.android.app.models.TitlePayload;
 import com.fungorn.android.app.network.NetworkClient;
 import com.fungorn.android.app.network.NewsApi;
 
@@ -11,11 +11,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class NewsPresenter implements NewsPresenterInterface {
-    NewsViewInterface viewInterface;
-    private String TAG = "NewsPresenter";
+public class NewsTitlePresenter implements NewsTitlePresenterInterface {
+    NewsTitleViewInterface viewInterface;
+    private String TAG = "NewsTitlePresenter";
 
-    public NewsPresenter(NewsViewInterface viewInterface) {
+    public NewsTitlePresenter(NewsTitleViewInterface viewInterface) {
         this.viewInterface = viewInterface;
     }
 
@@ -24,18 +24,18 @@ public class NewsPresenter implements NewsPresenterInterface {
         getObservable().subscribeWith(getObserver());
     }
 
-    public Observable<Payload> getObservable() {
+    public Observable<TitlePayload> getObservable() {
         return NetworkClient.getRetrofit().create(NewsApi.class)
                 .getNews()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public DisposableObserver<Payload> getObserver() {
-        return new DisposableObserver<Payload>() {
+    public DisposableObserver<TitlePayload> getObserver() {
+        return new DisposableObserver<TitlePayload>() {
 
             @Override
-            public void onNext(Payload payload) {
+            public void onNext(TitlePayload payload) {
                 Log.d(TAG,"OnNext" + payload.getPayload().size());
                 viewInterface.showNews(payload);
             }
@@ -44,7 +44,7 @@ public class NewsPresenter implements NewsPresenterInterface {
             public void onError(Throwable e) {
                 Log.d(TAG,"Error"+e);
                 e.printStackTrace();
-                viewInterface.showError("Error fetching News");
+                viewInterface.showError("Error fetching NewsTitle");
             }
 
             @Override

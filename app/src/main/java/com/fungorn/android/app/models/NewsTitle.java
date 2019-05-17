@@ -3,7 +3,7 @@ package com.fungorn.android.app.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class News {
+public class NewsTitle {
 
     @SerializedName("id")
     @Expose
@@ -25,7 +25,7 @@ public class News {
      * No args constructor for use in serialization
      *
      */
-    public News() {
+    public NewsTitle() {
     }
 
     /**
@@ -34,7 +34,7 @@ public class News {
      * @param name
      * @param milliseconds
      */
-    public News(String id, String name, Long milliseconds) {
+    public NewsTitle(String id, String name, Long milliseconds) {
         super();
         this.id = id;
         this.name = name;

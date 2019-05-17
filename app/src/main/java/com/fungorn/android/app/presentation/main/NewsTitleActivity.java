@@ -1,5 +1,6 @@
 package com.fungorn.android.app.presentation.main;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -13,18 +14,20 @@ import android.widget.Toast;
 
 import com.fungorn.android.app.R;
 import com.fungorn.android.app.adapters.NewsAdapter;
-import com.fungorn.android.app.models.Payload;
+import com.fungorn.android.app.models.NewsTitle;
+import com.fungorn.android.app.models.TitlePayload;
+import com.fungorn.android.app.presentation.content.NewsContentActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewsActivity extends AppCompatActivity implements NewsViewInterface {
+public class NewsTitleActivity extends AppCompatActivity implements NewsTitleViewInterface {
     @BindView(R.id.news_list)
     RecyclerView newsRecyclerView;
 
-    private String TAG = "NewsActivity";
+    private String TAG = "NewsTitleActivity";
     RecyclerView.Adapter adapter;
-    NewsPresenter presenter;
+    NewsTitlePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +37,11 @@ public class NewsActivity extends AppCompatActivity implements NewsViewInterface
 
         initPresenter();
         initViews();
-        getMovieList();
+        getNewsList();
     }
 
     private void initPresenter() {
-        presenter = new NewsPresenter(this);
+        presenter = new NewsTitlePresenter(this);
     }
 
     private void initViews(){
@@ -60,25 +63,29 @@ public class NewsActivity extends AppCompatActivity implements NewsViewInterface
         return super.onOptionsItemSelected(item);
     }
 
-    private void getMovieList() {
+    private void getNewsList() {
         presenter.getNews();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void showNews(Payload newsPayload) {
-        if(newsPayload != null) {
-            Log.d(TAG, newsPayload.getPayload().get(1).getName());
-            newsPayload.getPayload().sort((o1, o2) ->
+    public void showNews(TitlePayload payload) {
+        if(payload != null) {
+            Log.d(TAG, payload.getPayload().get(0).getName());
+            payload.getPayload().sort((o1, o2) ->
                     Long.compare(
                             o2.getPublicationDate().getMilliseconds(),
                             o1.getPublicationDate().getMilliseconds()
                     )
             );
-            adapter = new NewsAdapter(newsPayload.getPayload(), this);
+            adapter = new NewsAdapter(payload.getPayload(), this, newsTitle -> {
+                Intent intent = new Intent(this, NewsContentActivity.class);
+                intent.putExtra("id", newsTitle.getId());
+                startActivity(intent);
+            });
             newsRecyclerView.setAdapter(adapter);
         } else {
-            Log.d(TAG,"News payload is null");
+            Log.d(TAG,"NewsTitle payload is null");
         }
     }
 

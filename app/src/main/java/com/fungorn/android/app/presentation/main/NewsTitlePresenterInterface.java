@@ -1,5 +1,5 @@
 package com.fungorn.android.app.presentation.main;
 
-public interface NewsPresenterInterface {
+public interface NewsTitlePresenterInterface {
     void getNews();
 }

@@ -1,17 +1,16 @@
 package com.fungorn.android.app.models;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Payload {
+public class ContentPayload {
 
     @SerializedName("resultCode")
     @Expose
     private String resultCode;
     @SerializedName("payload")
     @Expose
-    private List<News> payload = null;
+    private NewsContent payload;
     @SerializedName("trackingId")
     @Expose
     private String trackingId;
@@ -20,20 +19,18 @@ public class Payload {
      * No args constructor for use in serialization
      *
      */
-    public Payload() {
+    public ContentPayload() {
     }
 
     /**
      *
-     * @param trackingId
      * @param resultCode
      * @param payload
      */
-    public Payload(String resultCode, List<News> payload, String trackingId) {
+    public ContentPayload(String resultCode, NewsContent payload) {
         super();
         this.resultCode = resultCode;
         this.payload = payload;
-        this.trackingId = trackingId;
     }
 
     public String getResultCode() {
@@ -44,11 +41,11 @@ public class Payload {
         this.resultCode = resultCode;
     }
 
-    public List<News> getPayload() {
+    public NewsContent getPayload() {
         return payload;
     }
 
-    public void setPayload(List<News> payload) {
+    public void setPayload(NewsContent payload) {
         this.payload = payload;
     }
 
@@ -59,11 +56,4 @@ public class Payload {
     public void setTrackingId(String trackingId) {
         this.trackingId = trackingId;
     }
-
-    @Override
-    public String toString() {
-        return resultCode;
-    }
-
 }
-

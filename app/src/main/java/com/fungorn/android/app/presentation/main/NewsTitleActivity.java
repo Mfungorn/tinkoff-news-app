@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 
 import com.fungorn.android.app.R;
 import com.fungorn.android.app.adapters.NewsAdapter;
-import com.fungorn.android.app.models.NewsTitle;
 import com.fungorn.android.app.models.TitlePayload;
 import com.fungorn.android.app.presentation.content.NewsContentActivity;
 
@@ -24,6 +24,9 @@ import butterknife.ButterKnife;
 public class NewsTitleActivity extends AppCompatActivity implements NewsTitleViewInterface {
     @BindView(R.id.news_list)
     RecyclerView newsRecyclerView;
+
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout refreshLayout;
 
     private String TAG = "NewsTitleActivity";
     RecyclerView.Adapter adapter;
@@ -46,6 +49,13 @@ public class NewsTitleActivity extends AppCompatActivity implements NewsTitleVie
 
     private void initViews(){
         newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        refreshLayout.setOnRefreshListener(() -> {
+            refreshLayout.setRefreshing(true);
+            refreshLayout.postDelayed(() -> {
+                refreshLayout.setRefreshing(false);
+                getNewsList();
+            }, 2000);
+        });
     }
 
     @Override
@@ -59,6 +69,9 @@ public class NewsTitleActivity extends AppCompatActivity implements NewsTitleVie
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
+        if (id == R.id.menu_refresh) {
+            getNewsList();
+        }
 
         return super.onOptionsItemSelected(item);
     }

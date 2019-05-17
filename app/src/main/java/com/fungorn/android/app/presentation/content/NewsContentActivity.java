@@ -2,7 +2,9 @@ package com.fungorn.android.app.presentation.content;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
@@ -31,7 +33,6 @@ public class NewsContentActivity extends AppCompatActivity implements NewsConten
 
     @BindView(R.id.content_date_text)
     TextView dateTextView;
-
 
     private String TAG = "NewsContentActivity";
     NewsContentPresenter presenter;
